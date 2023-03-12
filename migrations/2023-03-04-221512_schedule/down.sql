@@ -1,1 +1,1 @@
-select * from PanelSchedule;
+DROP TABLE IF EXISTS PanelSchedule
