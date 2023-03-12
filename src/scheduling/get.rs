@@ -3,19 +3,26 @@ use rocket_okapi::{*, okapi::schemars};
 use diesel::*;
 
 use crate::serde::*;
-use crate::models::{ScheduledPanelEntity};
+use crate::models::{ScheduledPanel};
 use crate::db::establish_connection;
 
 /// Represents a planned event
 #[derive(Deserialize, Serialize, JsonSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct Event {
+    /// The id of the event
     pub id: String,
+    /// The name of the event
     pub name: String,
+    /// The description of the event
     pub description: Option<String>,
+    /// The actual start of the event, format: YYYY-MM-DD HH:MM:SS
     pub start: String,
+    /// The actual end of the event, format: YYYY-MM-DD HH:MM:SS
     pub end: String,
+    /// The expected start of the event, format: YYYY-MM-DD HH:MM:SS
     pub original_start: Option<String>,
+    /// The expected end of the event, format: YYYY-MM-DD HH:MM:SS
     pub original_end: Option<String>,
 }
 
@@ -26,7 +33,7 @@ pub fn get_events() -> Json<Vec<Event>> {
 
     use crate::schema::panelschedule::dsl::*;
 
-    let events = panelschedule.load::<ScheduledPanelEntity>(&mut connection).expect("scream");
+    let events = panelschedule.load::<ScheduledPanel>(&mut connection).expect("scream");
     
     let mut json_events = Vec::new();
     for item in events.iter() {

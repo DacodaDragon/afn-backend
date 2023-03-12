@@ -1,8 +1,9 @@
 [package]
-name="rust_backend"
+name="afn-backend"
 version="0.0.1"
 edition = "2021"
 authors=["DaCodaDragon"]
+description="The backend api for the Alfurnative website.\nAll timestamp formats are \"YYYY-MM-DD HH:MM:SS\""
 
 [dependencies]
 rocket = { version = "0.5.0-rc.2", features = ["secrets"] }
@@ -11,3 +12,4 @@ serde  = { version = "1.0" }
 diesel = { version = "2.0.3",  features = ["postgres", "chrono"] }
 dotenv = { version = "0.15.0" }
 chrono = { version = "^0", features = ["clock", "serde"]} 
+indexmap = { version = "1.8.2" }
