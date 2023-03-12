@@ -14,7 +14,7 @@ pub struct NewScheduledPanel {
 
 #[derive(Debug, Queryable, Insertable)]
 #[diesel(table_name = panelschedule)]
-pub struct ScheduledPanelEntity {
+pub struct ScheduledPanel {
     pub id: i32,
     pub name: String,
     pub description: Option<String>,

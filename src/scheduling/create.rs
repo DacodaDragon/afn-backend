@@ -9,24 +9,28 @@ use crate::models::{NewScheduledPanel};
 use crate::db::establish_connection;
 use crate::schema::panelschedule::{self, id};
 
-
-/// Represents a planned event
+/// Represents the id of a panel Event
 #[derive(Deserialize, Serialize, JsonSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct EventId {
     pub id: i32
 }
 
-/// Represents a planned event
+/// Represents a new event to save in the database.
 #[derive(Deserialize, Serialize, JsonSchema)]
 #[serde(rename_all = "camelCase")]
 pub struct NewEvent {
+    /// The displayed name of the event
     pub name: String,
+    /// The displayed description of the event
     pub description: Option<String>,
+    /// When the event is supposed to begin. Format: YYYY-MM-DD HH-MM-SS
     pub start: String,
+    /// When the event is supposed to end. Format: YYYY-MM-DD HH-MM-SS
     pub end: String
 }
 
+/// creates a new event in the database
 #[openapi(tag = "Event Schedule")]
 #[put("/event", format="json", data="<event>")]
 pub fn create_event(event: Json<NewEvent>) -> Json<EventId> {

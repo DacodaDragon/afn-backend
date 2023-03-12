@@ -1,27 +1,12 @@
 use chrono::{NaiveDateTime, Local};
 use rocket::{post, serde::json::Json};
-use serde::{Deserialize, Serialize};
-use rocket_okapi::okapi::{*, schemars::*};
 use rocket_okapi::openapi;
 
-
+use crate::scheduling::get::Event;
 use crate::diesel::RunQueryDsl;
 use crate::schema::panelschedule;
 use crate::models::{NewScheduledPanel};
 use crate::db::establish_connection;
-
-/// Represents all data inside of an event
-#[derive(Deserialize, Serialize, JsonSchema)]
-#[serde(rename_all = "camelCase")]
-pub struct Event {
-    pub id: String,
-    pub name: String,
-    pub description: Option<String>,
-    pub start: String,
-    pub end: String,
-    pub original_start: Option<String>,
-    pub original_end: Option<String>
-}
 
 
 #[openapi(tag = "Event Schedule")]

@@ -7,19 +7,26 @@ mod models;
 mod db;
 
 use rocket::*;
-use rocket_okapi::{openapi_get_routes};
+use rocket_okapi::*;
 use rocket_okapi::swagger_ui::{make_swagger_ui, SwaggerUIConfig};
 use dotenv::dotenv;
 use std::env;
 
 
 #[rocket::main]
-async fn main() -> Result<(), rocket::Error> {
+async fn main() -> std::result::Result<(), rocket::Error> {
     dotenv().ok();
 
-    let _rocket = rocket::build()
-        .mount(
-            "/",
+    let rocket = create_server();
+
+    rocket.launch().await?;
+
+    Ok(())
+}
+
+pub fn create_server() -> Rocket<Build> {
+    let mut server = rocket::build()
+        .mount( "/",
             openapi_get_routes![
                 scheduling::get::get_events,
                 scheduling::get::get_event,
@@ -41,9 +48,7 @@ async fn main() -> Result<(), rocket::Error> {
             scheduling::update::post_event,
             scheduling::create::create_event,
             scheduling::delete::delete_event,
-        ])
-        .launch()
-        .await?;
+        ]);
 
-    Ok(())
+    server
 }
